@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PageLayout from "./layout/PageLayout";
-
+import {Home} from "./components/Home";
 
 
 export default function App() {
@@ -8,7 +8,7 @@ export default function App() {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<PageLayout />}>
-                    {/* <Route index element={<Home />} /> */}
+                    <Route index element={<Home />} />
                 </Route>
             </Routes>
         </BrowserRouter>
