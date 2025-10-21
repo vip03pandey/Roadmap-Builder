@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import roadmapsRoutes from "./routes/roadmapsRoutes.js";
 
 
 // Load environment variables from .env file
@@ -12,9 +13,7 @@ const app = express();
 app.use(cors({origin:"http://localhost:5173"}));
 app.use(express.json());
 
-app.get('/api/roadmaps',(req,res)=>{
-    res.json({message:"Roadmaps"})
-})
+app.use('/api/roadmaps',roadmapsRoutes);
 
 
 app.listen(PORT, () => {
