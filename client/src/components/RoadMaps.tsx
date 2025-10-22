@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Bookmark } from "lucide-react";
 import { useRoadmapsStore, type TabType } from "../store/roadmapsStore";
+import { useNavigate } from "react-router-dom";
 
 const tabs: { value: TabType; label: string }[] = [
   { value: "ROLE_BASED", label: "ROLE BASED ROADMAPS" },
@@ -8,6 +9,7 @@ const tabs: { value: TabType; label: string }[] = [
 ];
 
 export function RoadmapsGrid() {
+  const navigate = useNavigate();
   const {
     categories,
     roleRoadmaps,
@@ -101,6 +103,7 @@ export function RoadmapsGrid() {
                 <div
                   key={roadmap.id ?? roadmap.name}
                   className="bg-white border border-gray-200 rounded-lg p-4 hover:border-gray-300 hover:shadow-sm transition-all cursor-pointer group"
+                  onClick={() => navigate(`/roadmap-planner/${roadmap.id}`)}
                 >
                   <div className="flex items-center justify-between">
                     <span className="text-sm font-medium text-gray-900 group-hover:text-gray-700">
@@ -115,9 +118,14 @@ export function RoadmapsGrid() {
             </div>
 
             {isLoading && (
-              <div className="text-center py-12 text-gray-500">
-                Loading roadmaps...
-              </div>
+              <div className="bg-white border border-gray-200 rounded-lg p-4 hover:border-gray-300 hover:shadow-sm transition-all cursor-pointer group"
+                >
+                  <div className="flex items-center justify-between">
+                    <button className="text-gray-400 hover:text-gray-600 transition-colors">
+                      <Bookmark className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
             )}
 
             {!isLoading && error && (
@@ -127,9 +135,15 @@ export function RoadmapsGrid() {
             )}
 
             {!isLoading && currentRoadmaps.length === 0 && !error && (
-              <div className="text-center py-12 text-gray-500">
-                No roadmaps found for this category
-              </div>
+              <div
+                  className="bg-white border border-gray-200 rounded-lg p-4 hover:border-gray-300 hover:shadow-sm transition-all cursor-pointer group"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium text-gray-900 group-hover:text-gray-700">
+                      Loading...
+                    </span>
+                  </div>
+                </div>
             )}
           </div>
         </div>

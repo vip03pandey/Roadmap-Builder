@@ -55,7 +55,9 @@ export function NavbarDemo() {
 
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center gap-6">
-              <button className="text-gray-300 hover:text-white transition-colors">
+              <button className="text-gray-300 hover:text-white transition-colors"
+              onClick={() => navigate('/')}
+              >
                 Roadmaps
               </button>
               <button className="text-gray-300 hover:text-white transition-colors">
