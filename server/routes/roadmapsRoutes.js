@@ -137,7 +137,38 @@ router.get("/skills", async (req, res) => {
 })
 
 
-
+router.get('/:roadmapId',async(req,res)=>{
+    const roadmapId= req.params.roadmapId;
+    const cacheKey=`roadmap:${roadmapId}`;
+    let redis;
+    try{
+      redis=await getRedisClient();
+      try{
+        const cached=await redis.get(cacheKey);
+        if (cached){
+          return res.json(JSON.parse(cached));
+        }
+      }catch(error){
+        console.error("Redis get error:", error.message);
+      }
+    }catch(error){
+      console.error("Redis connection error:", error.message);
+    }
+    const {data:roadmapMetadata,error:roadmapMetadataError}=await supabase.from('roadmap_metadata').select('*').eq('roadmap_id',roadmapId);
+    const {data:relatedRoadmaps,error:relatedRoadmapsError}=await supabase.from('roadmap_category_map').select('*').eq('category_id',roadmapId);
+    if (roadmapMetadataError) throw roadmapMetadataError;
+    if (relatedRoadmapsError) throw relatedRoadmapsError;
+    const {data:roadmapsNodes,error:roadmapsNodesError}=await supabase.from('roadmap_nodes').select('*').eq('roadmap_id',roadmapId);
+    if (roadmapsNodesError) throw roadmapsNodesError;
+    if (redis) {
+      try {
+        await redis.set(cacheKey, JSON.stringify({roadmapMetadata,roadmapsNodes,relatedRoadmaps}));
+      } catch (error) {
+        console.error("Redis set error:", error.message);
+      }
+    }
+    return res.json({roadmapMetadata,roadmapsNodes,relatedRoadmaps});
+})
 
 
 

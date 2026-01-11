@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import {ChevronDown, Zap , LogOut, User } from "lucide-react";
+import { ChevronDown, Zap, LogOut, User, Mail } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
@@ -23,7 +23,7 @@ export function NavbarDemo() {
     await signOut();
     setIsUserMenuOpen(false);
     navigate('/');
-    window.location.reload(); 
+    window.location.reload();
   };
 
   const getUserName = () => {
@@ -31,8 +31,8 @@ export function NavbarDemo() {
     return (
       user.user_metadata?.name ||
       user.user_metadata?.display_name ||
-      user.user_metadata?.full_name || 
-      user.user_metadata?.given_name || 
+      user.user_metadata?.full_name ||
+      user.user_metadata?.given_name ||
       user.email?.split('@')[0] ||
       'User'
     );
@@ -41,7 +41,7 @@ export function NavbarDemo() {
   return (
     <div className="w-full bg-[#0a0e1a] text-white">
       <div className="w-full h-3 bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-400"></div>
-      
+
       <nav className="mx-auto max-w-7xl px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-6">
@@ -56,12 +56,17 @@ export function NavbarDemo() {
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center gap-6">
               <button className="text-gray-300 hover:text-white transition-colors"
-              onClick={() => navigate('/')}
+                onClick={() => navigate('/')}
               >
                 Roadmaps
               </button>
               <button className="text-gray-300 hover:text-white transition-colors">
                 AI Tutor
+              </button>
+              <button className="text-gray-300 hover:text-white transition-colors"
+                onClick={() => navigate('/newsletters')}
+              >
+                Newsletters
               </button>
               <button className="flex items-center gap-2 text-yellow-400 hover:text-yellow-300 transition-colors font-medium">
                 <Zap className="w-4 h-4 fill-yellow-400" />
@@ -76,13 +81,13 @@ export function NavbarDemo() {
               <Zap className="w-4 h-4" />
               <span>1</span>
             </button>
-            
+
             {/* User Menu or Login Button */}
             {loading ? (
               <div className="px-4 py-2 text-gray-400">Loading...</div>
             ) : user ? (
               <div className="relative" ref={userMenuRef}>
-                <button 
+                <button
                   onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
                   className="flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-700 transition-colors font-medium"
                 >
@@ -117,6 +122,16 @@ export function NavbarDemo() {
                       <span className="text-white">Dashboard</span>
                     </button>
                     <button
+                      onClick={() => {
+                        setIsUserMenuOpen(false);
+                        navigate('/newsletters');
+                      }}
+                      className="flex items-center gap-3 w-full p-3 hover:bg-[#2d3b52] transition-colors text-left"
+                    >
+                      <Mail className="w-4 h-4 text-gray-400" />
+                      <span className="text-white">Newsletters</span>
+                    </button>
+                    <button
                       onClick={handleSignOut}
                       className="flex items-center gap-3 w-full p-3 hover:bg-[#2d3b52] transition-colors text-left text-red-400 hover:text-red-300 border-t border-gray-700"
                     >
@@ -127,7 +142,7 @@ export function NavbarDemo() {
                 )}
               </div>
             ) : (
-              <button 
+              <button
                 className="flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-700 transition-colors font-medium"
                 onClick={() => navigate('/sign-in')}
               >

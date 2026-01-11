@@ -118,9 +118,9 @@ export function RoadmapsGrid() {
             </div>
 
             {isLoading && (
-              <div className="bg-white border border-gray-200 rounded-lg p-4 hover:border-gray-300 hover:shadow-sm transition-all cursor-pointer group"
+              <div className=""
                 >
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between bg-white border border-gray-200 rounded-lg p-4 hover:border-gray-300 hover:shadow-sm transition-all cursor-pointer group">
                     <button className="text-gray-400 hover:text-gray-600 transition-colors">
                       <Bookmark className="w-4 h-4" />
                     </button>

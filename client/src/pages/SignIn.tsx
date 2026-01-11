@@ -1,13 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { createClient } from "../lib/supabaseClient";
+import { supabase } from "../lib/supabaseClient";
 
 interface Message {
     type: string;
     text: string;
 }
-
-const supabase = createClient();
 
 export function SignIn() {
     const [email, setEmail] = useState('');
